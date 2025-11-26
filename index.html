@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>ESP32-CAM AI Professional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(145deg,#0d1117,#1f2937);
+    color: #e5e7eb;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #38bdf8;
+  }
+
+  .card {
+    margin: auto;
+    padding: 15px;
+    width: 92%;
+    max-width: 380px;
+    background: #111827;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    border: 1px solid #1f2937;
+  }
+
+  #img {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0px 0px 20px rgba(56,189,248,0.45);
+    border: 2px solid #38bdf8;
+    transition: transform 0.3s ease;
+  }
+  #img:hover {
+    transform: scale(1.02);
+  }
+
+  .btn {
+    margin-top: 20px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg,#3b82f6,#06b6d4);
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0px 4px 15px rgba(0,162,255,0.5);
+    transition: transform 0.15s ease-in-out;
+  }
+  .btn:hover {
+    transform: scale(1.04);
+    background: linear-gradient(135deg,#06b6d4,#3b82f6);
+  }
+
+  #msgBox {
+    margin-top: 18px;
+    padding: 12px;
+    background: #0f172a;
+    border-radius: 10px;
+    font-size: 17px;
+    border: 1px solid #1e293b;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+  }
+
+  .loading {
+    color: #facc15;
+    animation: blink 1s infinite alternate;
+  }
+
+  @keyframes blink {
+    from {opacity: 1;}
+    to {opacity: 0.4;}
+  }
+
+  footer {
+    margin-top: 25px;
+    color: #9ca3af;
+    font-size: 14px;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>📸 ESP32-CAM AI – Pro UI</h1>
+
+<div class="card">
+  <img id="img" src="http://192.168.1.7/latest.jpg" alt="Ảnh ESP32-CAM">
+
+  <button class="btn" onclick="capture()">Chụp ảnh & Nhận diện</button>
+
+  <div id="msgBox">Kết quả: Chưa có dữ liệu</div>
+</div>
+
+<footer>🚀 ESP32-CAM + Edge Impulse — Designed by ChatGPT</footer>
+
+<script>
+async function capture() {
+  const msg = document.getElementById('msgBox');
+  msg.innerHTML = "⏳ Đang xử lý...";
+  msg.classList.add("loading");
+
+  try {
+    const res = await fetch("http://192.168.1.7/capture");
+    const text = await res.text();
+
+    msg.innerHTML = "✨ Kết quả: <b>" + text + "</b>";
+    msg.classList.remove("loading");
+
+    // Làm mới ảnh
+    document.getElementById("img").src =
+      "http://192.168.1.7/latest.jpg?t=" + Date.now();
+
+  } catch (err) {
+    msg.innerHTML = "❌ Không thể kết nối ESP32-CAM!";
+    msg.classList.remove("loading");
+    msg.style.color = "#f87171";
+  }
+}
+
+
+</script>
+
+</body>
+</html>
