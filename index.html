@@ -94,7 +94,7 @@
 <h1>📸 ESP32-CAM AI – Pro UI</h1>
 
 <div class="card">
-  <img id="img" src="http://192.168.1.8/latest.jpg" alt="Ảnh ESP32-CAM">
+  <img id="img" src="http://192.168.1.123/latest.jpg" alt="Ảnh ESP32-CAM">
 
   <button class="btn" onclick="capture()">Chụp ảnh & Nhận diện</button>
 
@@ -110,7 +110,7 @@ async function capture() {
   msg.classList.add("loading");
 
   try {
-    const res = await fetch("http://192.168.1.8/capture");
+    const res = await fetch("http://192.168.1.123/capture");
     const text = await res.text();
 
     msg.innerHTML = "✨ Kết quả: <b>" + text + "</b>";
@@ -118,7 +118,7 @@ async function capture() {
 
     // Làm mới ảnh
     document.getElementById("img").src =
-      "http://192.168.1.8/latest.jpg?t=" + Date.now();
+      "http://192.168.1.123/latest.jpg?t=" + Date.now();
 
   } catch (err) {
     msg.innerHTML = "❌ Không thể kết nối ESP32-CAM!";
